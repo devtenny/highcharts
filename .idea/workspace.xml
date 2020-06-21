@@ -2,41 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7b1e4fa4-fe13-4bf8-8fdc-fa4f9d0a1e89" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/6a67bf99-ddc6-4f73-b4d7-e4bda26b09a3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/6a67bf99-ddc6-4f73-b4d7-e4bda26b09a3/storage_v2/_src_/schema/main.uQUzAA.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/work.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/apps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/migrations/0001_initial.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/migrations/0002_auto_populate.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/migrations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/templates/chart/covid19_chart.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/templates/chart/json_example.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/templates/chart/ticket_class_1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/templates/chart/ticket_class_2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/templates/chart/ticket_class_3.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/tests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chart/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/asgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/wsgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/world_population.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/titanic.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -102,11 +69,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="45">
               <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/requirements.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
             </state>
           </provider>
         </entry>
@@ -152,6 +128,7 @@
         <option value="$PROJECT_DIR$/chart/templates/chart/covid19_chart.html" />
         <option value="$PROJECT_DIR$/chart/views.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/requirements.txt" />
       </list>
     </option>
   </component>
@@ -175,16 +152,6 @@
             <path>
               <item name="h_chart" type="b2602c69:ProjectViewProjectNode" />
               <item name="h_chart" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="h_chart" type="b2602c69:ProjectViewProjectNode" />
-              <item name="h_chart" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="h_chart" type="b2602c69:ProjectViewProjectNode" />
-              <item name="h_chart" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -232,17 +199,18 @@
       <updated>1591567260421</updated>
       <workItem from="1591567261683" duration="4230000" />
       <workItem from="1592478745364" duration="4056000" />
-      <workItem from="1592702043744" duration="20368000" />
+      <workItem from="1592702043744" duration="21150000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28654000" />
+    <option name="totallyTimeSpent" value="29436000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="794" y="23" width="886" height="986" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20734598" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20734598" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -256,7 +224,7 @@
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Database Changes" order="10" weight="0.3295964" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32885906" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32885906" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="13" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -422,6 +390,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
         </state>
       </provider>
     </entry>
