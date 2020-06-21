@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from chart import views                                     # !!!
+from chart import views  # !!!
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -15,4 +15,6 @@ urlpatterns = [
     path('json-example/', views.json_example, name='json_example'),
     path('json-example/data/', views.chart_data, name='chart_data'),
     path('covid19/', views.covid19_chart, name='covid19_chart'),
+    path('ticket-class/4/',
+         views.ticket_class_view_final, name='ticket_class_view_final'),
 ]

@@ -20,10 +20,10 @@ def ticket_class_view_1(request):  # 방법 1
     dataset = Passenger.objects \
         .values('ticket_class') \
         .annotate(
-            survived_count=Count('ticket_class',
-                                 filter=Q(survived=True)),
-            not_survived_count=Count('ticket_class',
-                                     filter=Q(survived=False))) \
+        survived_count=Count('ticket_class',
+                             filter=Q(survived=True)),
+        not_survived_count=Count('ticket_class',
+                                 filter=Q(survived=False))) \
         .order_by('ticket_class')
     return render(request, 'chart/ticket_class_1.html', {'dataset': dataset})
 
@@ -36,14 +36,14 @@ def ticket_class_view_2(request):  # 방법 2
         .order_by('ticket_class')
 
     # 빈 리스트 3종 준비
-    categories = list()             # for xAxis
-    survived_series = list()        # for series named 'Survived'
-    not_survived_series = list()    # for series named 'Not survived'
+    categories = list()  # for xAxis
+    survived_series = list()  # for series named 'Survived'
+    not_survived_series = list()  # for series named 'Not survived'
 
     # 리스트 3종에 형식화된 값을 등록
     for entry in dataset:
-        categories.append('%s Class' % entry['ticket_class'])    # for xAxis
-        survived_series.append(entry['survived_count'])          # for series named 'Survived'
+        categories.append('%s Class' % entry['ticket_class'])  # for xAxis
+        survived_series.append(entry['survived_count'])  # for series named 'Survived'
         not_survived_series.append(entry['not_survived_count'])  # for series named 'Not survived'
 
     # json.dumps() 함수로 리스트 3종을 JSON 데이터 형식으로 반환
@@ -62,14 +62,14 @@ def ticket_class_view_3(request):  # 방법 3
         .order_by('ticket_class')
 
     # 빈 리스트 3종 준비 (series 이름 뒤에 '_data' 추가)
-    categories = list()                 # for xAxis
-    survived_series_data = list()       # for series named 'Survived'
-    not_survived_series_data = list()   # for series named 'Not survived'
+    categories = list()  # for xAxis
+    survived_series_data = list()  # for series named 'Survived'
+    not_survived_series_data = list()  # for series named 'Not survived'
 
     # 리스트 3종에 형식화된 값을 등록
     for entry in dataset:
-        categories.append('%s Class' % entry['ticket_class'])         # for xAxis
-        survived_series_data.append(entry['survived_count'])          # for series named 'Survived'
+        categories.append('%s Class' % entry['ticket_class'])  # for xAxis
+        survived_series_data.append(entry['survived_count'])  # for series named 'Survived'
         not_survived_series_data.append(entry['not_survived_count'])  # for series named 'Not survived'
 
     survived_series = {
@@ -148,7 +148,7 @@ def covid19_chart(request):
     arrow_date = list()
 
     for d in date:
-        arrow_date.append(arrow.get(d.year, d.month, d.day).timestamp*1000)
+        arrow_date.append(arrow.get(d.year, d.month, d.day).timestamp * 1000)
         # http://doc.mindscale.kr/km/python/07.html
 
     # timestamp 열 추가
@@ -259,3 +259,112 @@ def covid19_chart(request):
     dump = json.dumps(chart)
 
     return render(request, 'chart/covid19_chart.html', {'chart': dump})
+
+
+# https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/demo/combo-dual-axes/
+def ticket_class_view_final(request):
+    dataset = Passenger.objects \
+        .values('ticket_class') \
+        .annotate(survived_count=Count('ticket_class', filter=Q(survived=True)),
+                  not_survived_count=Count('ticket_class', filter=Q(survived=False))) \
+        .order_by('ticket_class')
+
+    # 빈 리스트 3종 준비 (series 이름 뒤에 '_data' 추가)
+    categories = list()  # for xAxis
+    survived_series_data = list()  # for series named 'Survived'
+    not_survived_series_data = list()  # for series named 'Not survived'
+    survive_rate_data = list()
+
+    # 리스트 3종에 형식화된 값을 등록
+    for entry in dataset:
+        categories.append('%s등석' % entry['ticket_class'])  # for xAxis
+        survived_series_data.append(entry['survived_count'])  # for series named 'Survived'
+        not_survived_series_data.append(entry['not_survived_count'])  # for series named 'Not survived'
+        survive_rate_data.append(
+            round(entry['survived_count'] / (entry['survived_count'] + entry['not_survived_count']) * 100, 2)
+        )
+
+    survived_series = {
+        'type': 'column',
+        'name': '생존',
+        'data': survived_series_data,
+        'color': 'green',
+        'yAxis': 1,
+        'tooltip': {
+            'valueSuffix': '명'
+        }
+    }
+    not_survived_series = {
+        'type': 'column',
+        'name': '비생존',
+        'data': not_survived_series_data,
+        'color': 'red',
+        'yAxis': 1,
+        'tooltip': {
+            'valueSuffix': '명'
+        }
+    }
+    survive_rate = {
+        'type': 'line',
+        'name': '생존율',
+        'data': survive_rate_data,
+        'tooltip': {
+            'valueSuffix': '%'
+        }
+    }
+
+    chart = {
+        'title': {'text': '좌석 등급에 따른 타이타닉 생존/비생존 인원 및 생존율'},
+        'xAxis': {'categories': categories},
+        'yAxis': [{
+            'tickPositions': [20, 30, 40, 50, 60, 70],
+            'labels': {
+                'format': '{value}%',
+                'style': {
+                    'color': '#0086c9'
+                }
+            },
+            'title': {
+                'text': '생존율',
+                'style': {
+                    'color': '#0086c9'
+                }
+            }
+        }, {
+            'tickPositions': [0, 120, 240, 360, 480, 600],
+            'labels': {
+                'format': '{value}명',
+            },
+            'title': {
+                'text': '인원',
+            },
+            'opposite': 'true'
+        }],
+        'tooltip': {
+            'shared': 'true'
+        },
+        'legend': {'layout': 'vertical',
+                   'align': 'left',
+                   'x': 120,
+                   'verticalAlign': 'top',
+                   'y': 100,
+                   'floating': 'true',
+        },
+        'series': [survived_series, not_survived_series, survive_rate],
+
+        'responsive': {
+            'chartOptions': {
+                'yAxis': [{
+                    'labels': {
+                        'align': 'right',
+                    },
+                    'labels': {
+                        'align': 'left',
+                    }
+                }]
+            }
+        }
+    }
+    dump = json.dumps(chart)
+
+    return render(request, 'chart/ticket_class_final.html', {'chart': dump})
