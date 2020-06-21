@@ -25,7 +25,7 @@ SECRET_KEY = '&nb9d^&r57b2&(6za0b!4$0ghukm0ag9x&%)(k$*%^dsblu(l2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['taeyeon2020highcharts.pythonanywhere.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
