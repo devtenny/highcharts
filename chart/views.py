@@ -211,7 +211,7 @@ def covid19_chart_confirmed(request):
 
     chart = {
         'chart': {'type': 'line'},
-        'title': {'text': 'COVID-19 확진자 발생율'},
+        'title': {'text': 'COVID-19 확진자 발생률'},
         'subtitle': {'text': 'Source: Johns Hopkins university Center for System Science and Engineering'},
         'series': [france_series, germany_series, korea_series, us_series, uk_series],
 
