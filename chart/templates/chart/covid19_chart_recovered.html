@@ -1,0 +1,17 @@
+<!--templates/ticket_class_3.html-->
+{% extends 'base.html' %}
+{% block title %}COIVD-19 Recovered{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h5 id="jua" class="card-header">COVID-19 Recovered Chart</h5>
+    <div class="card-body" id="container">
+        <script src="https://code.highcharts.com/highcharts.src.js"></script>
+        <script src="https://code.highcharts.com/modules/series-label.js"></script>
+        <script>
+            Highcharts.chart('container', {{ chart|safe }});
+        </script>
+    </div>
+</div>
+{% endblock %}
+

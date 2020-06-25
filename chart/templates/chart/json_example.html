@@ -1,13 +1,9 @@
-<!--templates/json_example.html-->
-<!doctype html>
-<html>
-<head>
-      <meta charset="utf-8">
-      <title>Django Highcharts Example</title>
-</head>
-<body>
-    <a href="{% url 'home' %}">Return to homepage</a>
+{% extends 'base.html' %}
+{% block title %}JSON example{% endblock %}
 
+{% block content %}
+<div class="card">
+    <h5 id="jua" class="card-header">JSON Example</h5>
     <div id="container" data-url="{% url 'chart_data' %}"></div>
     <script src="https://code.highcharts.com/highcharts.src.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -20,5 +16,5 @@
         }
     });
     </script>
-</body>
-</html>
+</div>
+{% endblock %}

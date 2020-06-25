@@ -9,11 +9,11 @@ import arrow
 
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'chart/home.html')
 
 
 def world_population(request):
-    return render(request, 'world_population.html')
+    return render(request, 'chart/world_population.html')
 
 
 def ticket_class_view_1(request):  # 방법 1
@@ -124,19 +124,15 @@ def chart_data(request):  # 접속 경로 'json-example/data/'에 대응하는 �
     return JsonResponse(chart)
 
 
-def covid19_chart(request):
+def covid19_chart_confirmed(request):
     # 데이터 적재 및 선별
     df = pd.read_csv('https://raw.githubusercontent.com/datasets/covid-19/master/data/countries-aggregated.csv',
                      parse_dates=['Date'])
     countries = ['Korea, South', 'Germany', 'United Kingdom', 'US', 'France']
     df = df[df['Country'].isin(countries)]
 
-    # 합계 열 생성
-    df['Cases'] = df[['Confirmed', 'Recovered', 'Deaths']].sum(axis=1)
-
-    # 데이터프레임 준비
-    df = df.pivot(index='Date', columns='Country', values='Cases')
-    countries = list(df.columns)
+    # 데이터프레임 준비(확진자)
+    df = df.pivot(index='Date', columns='Country', values='Confirmed')
 
     # 인덱스 조작
     covid = df.reset_index('Date')
@@ -258,7 +254,267 @@ def covid19_chart(request):
     }
     dump = json.dumps(chart)
 
-    return render(request, 'chart/covid19_chart.html', {'chart': dump})
+    return render(request, 'chart/covid19_chart_confirmed.html', {'chart': dump})
+
+
+def covid19_chart_recovered(request):
+    # 데이터 적재 및 선별
+    df = pd.read_csv('https://raw.githubusercontent.com/datasets/covid-19/master/data/countries-aggregated.csv',
+                     parse_dates=['Date'])
+    countries = ['Korea, South', 'Germany', 'United Kingdom', 'US', 'France']
+    df = df[df['Country'].isin(countries)]
+
+    # 데이터프레임 준비(회복자)
+    dfr = df.pivot(index='Date', columns='Country', values='Recovered')
+    # 데이터프레임 준비(확진자)
+    dfc = df.pivot(index='Date', columns='Country', values='Confirmed')
+
+    # 회복자 / 확진자 * 100 으로 회복율 구하기
+    df = round((dfr / dfc) * 100, 2)
+
+    # 인덱스 조작
+    covid = df.reset_index('Date')
+    covid.set_index(['Date'], inplace=True)
+    covid.columns = countries
+
+    # 날짜별 타임스탬프 값 구하기(arrow 사용)
+    date = covid.index
+    arrow_date = list()
+
+    for d in date:
+        arrow_date.append(arrow.get(d.year, d.month, d.day).timestamp * 1000)
+        # http://doc.mindscale.kr/km/python/07.html
+
+    # timestamp 열 추가
+    covid['timestamp'] = arrow_date
+
+    # timestamp 열로 인덱스 변경
+    covid.reset_index('Date')
+    covid.set_index(['timestamp'], inplace=True)
+    covid.columns = countries
+
+    # 하이차트 그리기 위해 2차원 배열로 데이터 생성
+    # [[timestamp, total], [timestamp, total], ...]
+    country_data = countries
+    for k in range(0, len(countries)):
+        #     print(country_data[k])
+        timestamp = list(covid.index)
+        total = list(covid[countries[k]])
+        timestamp_total = list()
+        data = list()
+
+        for i in range(0, len(covid.index)):
+            timestamp_total.append(timestamp[i])
+            timestamp_total.append(total[i])
+            data.append(timestamp_total)
+            timestamp_total = list()
+
+        country_data[k] = data
+    #     print(country_name[k])
+
+    # 하이차트 그리기
+    france_series = {
+        'name': 'France',
+        'data': country_data[0],
+        'color': '#7CCBA2'
+    }
+    germany_series = {
+        'name': 'Germany',
+        'data': country_data[1],
+        'color': '#FCDE9C'
+    }
+    korea_series = {
+        'name': 'Korea, South',
+        'data': country_data[2],
+        'color': '#045275'
+    }
+    us_series = {
+        'name': 'US',
+        'data': country_data[3],
+        'color': '#DC3977'
+    }
+    uk_series = {
+        'name': 'United Kingdom',
+        'data': country_data[4],
+        'color': '#7C1D6F'
+    }
+
+    chart = {
+        'chart': {'type': 'line'},
+        'title': {'text': 'COVID-19 확진자 회복률'},
+        'subtitle': {'text': 'Source: Johns Hopkins university Center for System Science and Engineering'},
+        'series': [france_series, germany_series, korea_series, us_series, uk_series],
+
+        'xAxis': {
+            'type': 'datetime',
+            'labels': {
+                'format': '{value:%b}'  # https://jsfiddle.net/dLfv2sbd/1/
+            },
+            'crosshair': 'true',
+        },
+
+        'yAxis': {
+            'title': {
+                'text': '회복률',
+                'rotation': -90
+            },
+            'labels': {
+                'enabled': 'false',
+                'format': '{value}%'},
+            'crosshair': 'true'
+        },
+
+        'responsive': {
+            'rules': [{
+                'condition': {
+                    'maxWidth': 500
+                },
+            }]
+        },
+
+        'plotOptions': {
+            'series': {
+                'label': {
+                    'connectorAllowed': 'false'
+                },
+
+            }
+        },
+
+    }
+    dump = json.dumps(chart)
+
+    return render(request, 'chart/covid19_chart_recovered.html', {'chart': dump})
+
+
+def covid19_chart_deaths(request):
+    # 데이터 적재 및 선별
+    df = pd.read_csv('https://raw.githubusercontent.com/datasets/covid-19/master/data/countries-aggregated.csv',
+                     parse_dates=['Date'])
+    countries = ['Korea, South', 'Germany', 'United Kingdom', 'US', 'France']
+    df = df[df['Country'].isin(countries)]
+
+    # 데이터프레임 준비(회복자)
+    dfd = df.pivot(index='Date', columns='Country', values='Deaths')
+    # 데이터프레임 준비(확진자)
+    dfc = df.pivot(index='Date', columns='Country', values='Confirmed')
+
+    # 회복자 / 확진자 * 100 으로 회복율 구하기
+    df = round((dfd / dfc) * 100, 2)
+
+    # 인덱스 조작
+    covid = df.reset_index('Date')
+    covid.set_index(['Date'], inplace=True)
+    covid.columns = countries
+
+    # 날짜별 타임스탬프 값 구하기(arrow 사용)
+    date = covid.index
+    arrow_date = list()
+
+    for d in date:
+        arrow_date.append(arrow.get(d.year, d.month, d.day).timestamp * 1000)
+        # http://doc.mindscale.kr/km/python/07.html
+
+    # timestamp 열 추가
+    covid['timestamp'] = arrow_date
+
+    # timestamp 열로 인덱스 변경
+    covid.reset_index('Date')
+    covid.set_index(['timestamp'], inplace=True)
+    covid.columns = countries
+
+    # 하이차트 그리기 위해 2차원 배열로 데이터 생성
+    # [[timestamp, total], [timestamp, total], ...]
+    country_data = countries
+    for k in range(0, len(countries)):
+        #     print(country_data[k])
+        timestamp = list(covid.index)
+        total = list(covid[countries[k]])
+        timestamp_total = list()
+        data = list()
+
+        for i in range(0, len(covid.index)):
+            timestamp_total.append(timestamp[i])
+            timestamp_total.append(total[i])
+            data.append(timestamp_total)
+            timestamp_total = list()
+
+        country_data[k] = data
+    #     print(country_name[k])
+
+    # 하이차트 그리기
+    france_series = {
+        'name': 'France',
+        'data': country_data[0],
+        'color': '#7CCBA2'
+    }
+    germany_series = {
+        'name': 'Germany',
+        'data': country_data[1],
+        'color': '#FCDE9C'
+    }
+    korea_series = {
+        'name': 'Korea, South',
+        'data': country_data[2],
+        'color': '#045275'
+    }
+    us_series = {
+        'name': 'US',
+        'data': country_data[3],
+        'color': '#DC3977'
+    }
+    uk_series = {
+        'name': 'United Kingdom',
+        'data': country_data[4],
+        'color': '#7C1D6F'
+    }
+
+    chart = {
+        'chart': {'type': 'line'},
+        'title': {'text': 'COVID-19 확진자 사망률'},
+        'subtitle': {'text': 'Source: Johns Hopkins university Center for System Science and Engineering'},
+        'series': [france_series, germany_series, korea_series, us_series, uk_series],
+
+        'xAxis': {
+            'type': 'datetime',
+            'labels': {
+                'format': '{value:%b}'  # https://jsfiddle.net/dLfv2sbd/1/
+            },
+            'crosshair': 'true',
+        },
+
+        'yAxis': {
+            'title': {
+                'text': '사망률',
+                'rotation': -90
+            },
+            'labels': {
+                'enabled': 'false',
+                'format': '{value}%'},
+            'crosshair': 'true'
+        },
+
+        'responsive': {
+            'rules': [{
+                'condition': {
+                    'maxWidth': 500
+                },
+            }]
+        },
+
+        'plotOptions': {
+            'series': {
+                'label': {
+                    'connectorAllowed': 'false'
+                },
+
+            }
+        },
+
+    }
+    dump = json.dumps(chart)
+
+    return render(request, 'chart/covid19_chart_deaths.html', {'chart': dump})
 
 
 # https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/highcharts/demo/combo-dual-axes/
