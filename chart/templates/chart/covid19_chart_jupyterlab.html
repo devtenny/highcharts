@@ -1,0 +1,13 @@
+<!--templates/covid19_chart_confirmed.html-->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}COIVD-19 Jupyterlab{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h5 id="jua" class="card-header">COVID-19 Jupyterlab</h5>
+    <div class="card-body" id="container">
+        <img src="{% static 'images/covid_jupyterlab.png' %}">
+    </div>
+</div>
+{% endblock %}

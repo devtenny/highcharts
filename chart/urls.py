@@ -13,6 +13,7 @@ urlpatterns = [
          views.world_population, name='world_population'),  # !!!
     path('json-example/', views.json_example, name='json_example'),
     path('json-example/data/', views.chart_data, name='chart_data'),
+    path('covid19/jupyterlab/', views.covid19_chart_jupyterlab, name='covid19_chart_jupyterlab'),
     path('covid19/confirmed/', views.covid19_chart_confirmed, name='covid19_chart_confirmed'),
     path('covid19/recovered/', views.covid19_chart_recovered, name='covid19_chart_recovered'),
     path('covid19/deaths/', views.covid19_chart_deaths, name='covid19_chart_deaths'),

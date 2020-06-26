@@ -124,6 +124,10 @@ def chart_data(request):  # 접속 경로 'json-example/data/'에 대응하는 �
     return JsonResponse(chart)
 
 
+def covid19_chart_jupyterlab(request):
+    return render(request, 'chart/covid19_chart_jupyterlab.html')
+
+
 def covid19_chart_confirmed(request):
     # 데이터 적재 및 선별
     df = pd.read_csv('https://raw.githubusercontent.com/datasets/covid-19/master/data/countries-aggregated.csv',
